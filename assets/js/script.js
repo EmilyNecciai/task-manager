@@ -94,10 +94,13 @@ var createTaskActions = function(taskId) {
 formEl.addEventListener("submit", taskFormHandler);
 
 var taskButtonHandler = function(event) {
-    console.log(event.target);
+    var targetEl = event.target;
 
-    if (event.target.matches(".delete-btn")) {
-        var taskId = event.target.getAttribute("data-task-id");
+    if (targetEl.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        editTask(taskId);
+    } else if (targetEl.matches(".delete-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
         deleteTask(taskId);
     }
 };
@@ -108,7 +111,12 @@ var deleteTask = function(taskId) {
     taskSelected.remove();
 };
 
+//EDIT TASK FUNCTIOn
+var editTask = function(taskId) {
+    console.log("editing task #" + taskId);
 
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+};
 
 
 
