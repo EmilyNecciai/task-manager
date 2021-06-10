@@ -14,14 +14,20 @@ var taskFormHandler = function(event) {
         return false;
     }
 
+    var isEdit = formEl.hasAttribute("data-task-id");
+
     //package data as object
+   //get task id and call function if is edit
+   if (isEdit) {
+       var taskId = formEl.getAttribute("data-task-id");
+       completeEditTask(taskNameInput, taskTypeInput, taskId);
+   } else {
     var taskDataObj = {
         name: taskNameInput,
         type: taskTypeInput
     };
-
-    //send as arguement to createTaskEl
-    createTaskEl(taskDataObj);
+    createTaskEl(taskDataObj);    
+   }
 
     formEl.reset();
 };
@@ -89,6 +95,19 @@ var createTaskActions = function(taskId) {
 
 
     return actionContainerEl;
+};
+
+var completeEditTask = function(taskName, taskType, taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    //set new values
+    taskSelected.querySelector("h3.task-name").textContent = taskName;
+    taskSelected.querySelector("span.task-type").textContent = taskType;
+
+    alert("Task Updated!");
+
+    //reset button
+    formEl.removeAttribute("data-task-id");
+    document.querySelector("#save-task").textContent = "Add Task";
 };
 
 formEl.addEventListener("submit", taskFormHandler);
